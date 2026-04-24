@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'task_list' %}">All Tasks</a>
+        |
+        <a href="{% url 'task_add' %}">Add Task</a>
+    </nav>
+    <hr>
+
+    <h1>Task List</h1>
+
+    {% if tasks %}
+    <table border="1" cellpadding="6">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Due Date</th>
+                <th>Completed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.category.name }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.completed }}</td>
+                <td>
+                    <a href="{% url 'task_edit' task.pk %}">Edit</a>
+                    |
+                    <a href="{% url 'task_delete' task.pk %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tasks yet. Click "Add Task" to create your first one.</p>
+    {% endif %}
+</body>
+</html>
