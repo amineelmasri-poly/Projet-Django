@@ -22,7 +22,7 @@ def task_create(request):
 
 
 def task_update(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+    task = update(Task, pk=pk)
 
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
@@ -36,7 +36,7 @@ def task_update(request, pk):
 
 
 def task_delete(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+    task = delete(Task, pk=pk)
 
     if request.method == "POST":
         task.delete()
