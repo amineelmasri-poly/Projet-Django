@@ -17,32 +17,20 @@
     <h1>Task List</h1>
 
     {% if tasks %}
-    <table border="1" cellpadding="6">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Due Date</th>
-                <th>Completed</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
-            <tr>
-                <td>{{ task.title }}</td>
-                <td>{{ task.category.name }}</td>
-                <td>{{ task.due_date }}</td>
-                <td>{{ task.completed }}</td>
-                <td>
-                    <a href="{% url 'task_edit' task.pk %}">Edit</a>
-                    |
-                    <a href="{% url 'task_delete' task.pk %}">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="task-grid">
+        {% for task in tasks %}
+        <div class="task-card">
+            <h2>{{ task.title }}</h2>
+            <p><strong>Category:</strong> {{ task.category.name }}</p>
+            <p><strong>Due date:</strong> {{ task.due_date }}</p>
+            <p><strong>Completed:</strong> {{ task.completed }}</p>
+            <div class="task-actions">
+                <a href="{% url 'task_edit' task.pk %}">Edit</a>
+                <a href="{% url 'task_delete' task.pk %}">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     {% else %}
     <p>No tasks yet. Click "Add Task" to create your first one.</p>
     {% endif %}

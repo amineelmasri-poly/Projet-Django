@@ -1,7 +1,12 @@
-from django.shortcuts import  redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import TaskForm
-from .models import Task
+from .models import Category, Task
+
+
+def setcategories():
+    Category.objects.get_or_create(name="Urgent", defaults={"description": "Urgent tasks"})
+    Category.objects.get_or_create(name="Delegate", defaults={"description": "Delegated tasks"})
 
 
 def task_list(request):
@@ -10,6 +15,8 @@ def task_list(request):
 
 
 def task_create(request):
+    setcategories()
+
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -18,11 +25,12 @@ def task_create(request):
     else:
         form = TaskForm()
 
-    return render(request, "tasks/task_add.html", {"form": form})
+    categories = Category.objects.filter(name__in=["Urgent", "Delegate"])
+    return render(request, "tasks/task_add.html", {"form": form, "categories": categories})
 
 
 def task_update(request, pk):
-    task = update(Task, pk=pk)
+    task = get_object_or_404(Task, pk=pk)
 
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
@@ -36,7 +44,7 @@ def task_update(request, pk):
 
 
 def task_delete(request, pk):
-    task = delete(Task, pk=pk)
+    task = get_object_or_404(Task, pk=pk)
 
     if request.method == "POST":
         task.delete()
