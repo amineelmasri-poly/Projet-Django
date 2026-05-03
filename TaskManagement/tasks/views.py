@@ -31,7 +31,7 @@ def task_create(request):
     setcategories()
 
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("task_list")
@@ -47,9 +47,13 @@ def task_update(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
     if request.method == "POST":
-        form = TaskForm(request.POST, instance=task)
+        form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            # If no new image uploaded, keep the existing image
+            if not request.FILES.get('image') and task.image:
+                obj.image = task.image
+            obj.save()
             return redirect("task_list")
     else:
         form = TaskForm(instance=task)

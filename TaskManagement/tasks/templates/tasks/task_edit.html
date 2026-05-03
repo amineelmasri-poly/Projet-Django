@@ -34,36 +34,46 @@
                         <form method="post" enctype="multipart/form-data" novalidate>
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label class="form-label">Title</label>
-                                <input type="text" name="title" class="form-control" value="{{ task.title }}" required>
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {% for error in form.title.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea name="description" class="form-control" rows="4">{{ task.description }}</textarea>
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                                {% for error in form.description.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">Category</label>
-                                <select name="category" class="form-select" required>
-                                    {% for category in categories %}<option value="{{ category.id }}" {% if category.id == task.category.id %}selected{% endif %}>{{ category.name }}</option>{% endfor %}
-                                </select>
+                                {{ form.category.label_tag }}
+                                {{ form.category }}
+                                {% for error in form.category.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">Due Date</label>
-                                <input type="datetime-local" name="due_date" class="form-control" value="{{ task.due_date|date:'Y-m-dTH:i' }}" required>
+                                {{ form.due_date.label_tag }}
+                                {{ form.due_date }}
+                                {% for error in form.due_date.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">Image</label>
+                                {{ form.image.label_tag }}
                                 {% if task.image %}
                                 <div class="mb-2">
                                     <img src="{{ task.image.url }}" alt="{{ task.title }}" class="img-thumbnail" style="max-width: 200px;">
                                 </div>
                                 {% endif %}
-                                <input type="file" name="image" class="form-control" accept="image/*">
+                                {{ form.image }}
+                                {% for error in form.image.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <div class="mb-3 form-check">
-                                <input type="checkbox" name="completed" class="form-check-input" id="completed" {% if task.completed %}checked{% endif %}>
-                                <label class="form-check-label" for="completed">Mark as completed</label>
+                                {{ form.completed }}
+                                {{ form.completed.label_tag }}
+                                {% for error in form.completed.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
                             </div>
+
                             <button type="submit" class="btn btn-primary">Update</button>
                             <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
                         </form>
