@@ -31,7 +31,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" novalidate>
+                        <form method="post" enctype="multipart/form-data" novalidate>
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label class="form-label">Title</label>
@@ -50,6 +50,15 @@
                             <div class="mb-3">
                                 <label class="form-label">Due Date</label>
                                 <input type="datetime-local" name="due_date" class="form-control" value="{{ task.due_date|date:'Y-m-dTH:i' }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image</label>
+                                {% if task.image %}
+                                <div class="mb-2">
+                                    <img src="{{ task.image.url }}" alt="{{ task.title }}" class="img-thumbnail" style="max-width: 200px;">
+                                </div>
+                                {% endif %}
+                                <input type="file" name="image" class="form-control" accept="image/*">
                             </div>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" name="completed" class="form-check-input" id="completed" {% if task.completed %}checked{% endif %}>

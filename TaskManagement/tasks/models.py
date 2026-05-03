@@ -13,6 +13,7 @@ class Task(models.Model):
     due_date = models.DateTimeField()
     completed = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='tasks/', null=True, blank=True)
     def __str__(self):
         return self.title
 

@@ -49,6 +49,9 @@
             {% for task in tasks %}
             <div class="col-md-6 col-lg-4">
                 <div class="card task-card h-100 shadow-sm">
+                    {% if task.image %}
+                    <img src="{{ task.image.url }}" alt="{{ task.title }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ task.title }}</h5>
                         <p class="card-text text-muted">{{ task.description|truncatewords:15 }}</p>
@@ -64,7 +67,7 @@
                     </div>
                     <div class="card-footer bg-light">
                         <a href="{% url 'task_edit' task.pk %}" class="btn btn-sm btn-outline-primary"> Edit</a>
-                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger"> Delete</a>
+                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
                     </div>
                 </div>
             </div>
