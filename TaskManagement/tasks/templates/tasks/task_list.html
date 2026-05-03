@@ -63,8 +63,8 @@
                         <p class="text-muted small mb-3"> {{ task.due_date|date:"Y-m-d H:i" }}</p>
                     </div>
                     <div class="card-footer bg-light">
-                        <a href="{% url 'task_edit' task.pk %}" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
-                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                        <a href="{% url 'task_edit' task.pk %}" class="btn btn-sm btn-outline-primary"> Edit</a>
+                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger"> Delete</a>
                     </div>
                 </div>
             </div>
