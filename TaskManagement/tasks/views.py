@@ -1,4 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import TaskForm
 from .models import Category, Task
@@ -9,11 +12,13 @@ def setcategories():
     Category.objects.get_or_create(name="Delegate", defaults={"description": "Delegated tasks"})
 
 
+@login_required
 def task_list(request):
     tasks = Task.objects.all()
     return render(request, "tasks/task_list.html", {"tasks": tasks})
 
 
+@login_required
 def task_create(request):
     setcategories()
 
@@ -29,6 +34,7 @@ def task_create(request):
     return render(request, "tasks/task_add.html", {"form": form, "categories": categories})
 
 
+@login_required
 def task_update(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
@@ -43,6 +49,7 @@ def task_update(request, pk):
     return render(request, "tasks/task_edit.html", {"form": form, "task": task})
 
 
+@login_required
 def task_delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
 
@@ -51,3 +58,24 @@ def task_delete(request, pk):
         return redirect("task_list")
 
     return render(request, "tasks/task_delete.html", {"task": task})
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("task_list")
+
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("task_list")
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "tasks/login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")

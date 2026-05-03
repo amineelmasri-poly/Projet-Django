@@ -11,6 +11,8 @@
         <a href="{% url 'task_list' %}">All Tasks</a>
         |
         <a href="{% url 'task_add' %}">Add Task</a>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
     </nav>
     <hr>
 
@@ -32,7 +34,7 @@
         {% endfor %}
     </div>
     {% else %}
-    <p>No tasks yet. Click "Add Task" to create your first one.</p>
+    <p>No tasks yet.</p>
     {% endif %}
 </body>
 </html>

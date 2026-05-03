@@ -4,25 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="static/tasks/style.css">
-    <title>Add Task</title>
+    <title>Login</title>
 </head>
 <body>
-    <nav>
-        <a href="{% url 'task_list' %}">All Tasks</a>
-        |
-        <a href="{% url 'task_add' %}">Add Task</a>
-        |
-        <a href="{% url 'logout' %}">Logout</a>
-    </nav>
     <hr>
 
-    <h1>Add Task</h1>
+    <h1>Login</h1>
 
+    {% if form.errors %}
+    <p style="color: red;">Invalid username or password.</p>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add</button>
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>
