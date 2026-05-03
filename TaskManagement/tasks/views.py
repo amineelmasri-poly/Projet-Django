@@ -38,7 +38,7 @@ def task_create(request):
     else:
         form = TaskForm()
 
-    categories = Category.objects.filter(name__in=["Urgent", "Delegate"])
+    categories = Category.objects.all()
     return render(request, "tasks/task_add.html", {"form": form, "categories": categories})
 
 
@@ -54,7 +54,8 @@ def task_update(request, pk):
     else:
         form = TaskForm(instance=task)
 
-    return render(request, "tasks/task_edit.html", {"form": form, "task": task})
+    categories = Category.objects.all()
+    return render(request, "tasks/task_edit.html", {"form": form, "task": task, "categories": categories})
 
 
 @login_required
