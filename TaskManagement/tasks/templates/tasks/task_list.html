@@ -17,6 +17,14 @@
     <hr>
 
     <h1>Task List</h1>
+    <!-- Search form -->
+    <form method="get" style="margin-bottom: 20px;">
+        <input type="text" name="search" placeholder="title / description..." value="{{ search_query }}" style="width: 300px; padding: 8px;">
+        <button type="submit" style="padding: 8px 16px;">Search</button>
+        {% if search_query %}
+            <a href="{% url 'task_list' %}" style="padding: 8px 16px;">Clear</a>
+        {% endif %}
+    </form>
 
     {% if tasks %}
     <div class="task-grid">

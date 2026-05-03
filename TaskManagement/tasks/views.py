@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.db.models import Q
 
 from .forms import TaskForm
 from .models import Category, Task
@@ -15,7 +16,14 @@ def setcategories():
 @login_required
 def task_list(request):
     tasks = Task.objects.all()
-    return render(request, "tasks/task_list.html", {"tasks": tasks})
+    search_query = request.GET.get('search', '')
+    
+    if search_query:
+        tasks = tasks.filter(
+            Q(title__icontains=search_query) | Q(description__icontains=search_query)
+        )
+    
+    return render(request, "tasks/task_list.html", {"tasks": tasks, "search_query": search_query})
 
 
 @login_required
