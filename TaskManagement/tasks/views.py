@@ -50,7 +50,6 @@ def task_update(request, pk):
         form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
             obj = form.save(commit=False)
-            # If no new image uploaded, keep the existing image
             if not request.FILES.get('image') and task.image:
                 obj.image = task.image
             obj.save()
